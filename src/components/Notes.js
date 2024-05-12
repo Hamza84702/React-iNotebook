@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef,useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import noteContext from "../context/notes/noteContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
@@ -6,38 +6,44 @@ import AddNote from "./AddNote";
 function Notes() {
   const context = useContext(noteContext);
   const { notes, getNotes, editNote } = context;
-  
+
   useEffect(() => {
     getNotes();
     // eslint-disable-next-line
   }, []);
 
-  const [note,setNote] = useState({id:"", etitle:"", edescription:"", etag:""})
+  const [note, setNote] = useState({
+    id: "",
+    etitle: "",
+    edescription: "",
+    etag: "",
+  });
 
   //Handle the Functions
-      const ref = useRef(null);
-      const refClose = useRef(null);
-      const updateNote = (currentNote) => {
-        ref.current.click();
-        setNote({id:currentNote._id, etitle:currentNote.title, edescription:currentNote.description, etag:currentNote.tag})
-      };
+  const ref = useRef(null);
+  const refClose = useRef(null);
+  const updateNote = (currentNote) => {
+    ref.current.click();
+    setNote({
+      id: currentNote._id,
+      etitle: currentNote.title,
+      edescription: currentNote.description,
+      etag: currentNote.tag,
+    });
+  };
 
-      const handleSubmit = (e) =>{
-        e.preventDefault();
-        console.log("button clicked");
-        editNote(note.id,note.etitle,note.edescription,note.etag);
-        refClose.current.click();
-              // e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("button clicked");
+    editNote(note.id, note.etitle, note.edescription, note.etag);
+    refClose.current.click();
+    // e.preventDefault();
+  };
 
-             
-          }
-  
-      const  onChange= (e) =>{
-              setNote({...note,[e.target.name]: e.target.value})
-          }
+  const onChange = (e) => {
+    setNote({ ...note, [e.target.name]: e.target.value });
+  };
 
-
- 
   return (
     <>
       <AddNote />
@@ -48,7 +54,6 @@ function Notes() {
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
         ref={ref}
-
       >
         Launch demo modal
       </button>
@@ -86,6 +91,8 @@ function Notes() {
                     name="etitle"
                     value={note.etitle}
                     onChange={onChange}
+                    min={5}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -99,6 +106,8 @@ function Notes() {
                     name="edescription"
                     value={note.edescription}
                     onChange={onChange}
+                    min={5}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -112,6 +121,8 @@ function Notes() {
                     name="etag"
                     value={note.etag}
                     onChange={onChange}
+                    min={5}
+                    required
                   />
                 </div>
               </form>
@@ -125,7 +136,12 @@ function Notes() {
               >
                 Close
               </button>
-              <button onClick={handleSubmit} type="button" className="btn btn-primary">
+              <button
+                onClick={handleSubmit}
+                type="button"
+                className="btn btn-primary"
+                disabled={note.etitle.length<5 || note.edescription.length<5}
+              >
                 Update
               </button>
             </div>
@@ -134,6 +150,9 @@ function Notes() {
       </div>
       <div className="row my-3">
         <h3>Your Notes</h3>
+        <div className="container row justify-content-center">
+          {notes.length === 0 && "No notes available to display."}
+        </div>
         {notes.map((note) => {
           return (
             <NoteItem key={note._id} updateNote={updateNote} note={note} />
