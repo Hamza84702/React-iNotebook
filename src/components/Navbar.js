@@ -10,7 +10,7 @@ const Navbar = () => {
   //   console.log(location.pathname);
   // }, [location]);
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="#">
           iNoteBook
@@ -51,7 +51,7 @@ const Navbar = () => {
             </li>
           </ul>
           <form className="d-flex">
-            <input
+            {/* <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
@@ -59,7 +59,9 @@ const Navbar = () => {
             />
             <button className="btn btn-outline-success" type="submit">
               Search
-            </button>
+            </button> */}
+            <Link className="btn btn-primary mx-1" to="/login"  role="button">Login</Link>
+            <Link className="btn btn-primary mx-1"  to="/signup" role="button">Sign up</Link>
           </form>
         </div>
       </div>
